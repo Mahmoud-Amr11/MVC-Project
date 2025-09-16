@@ -1,3 +1,8 @@
+using Demo.DataAccess.Data;
+using Demo.DataAccess.Repository.DepartmentsRepository;
+using Demo.Service.Services.DepartmentsService;
+using Microsoft.EntityFrameworkCore;
+
 namespace MVC04
 {
     public class Program
@@ -8,6 +13,15 @@ namespace MVC04
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddDbContext<AppDbContext>(
+              options =>
+              {
+                  options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+              }
+            );
+            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+
 
             var app = builder.Build();
 

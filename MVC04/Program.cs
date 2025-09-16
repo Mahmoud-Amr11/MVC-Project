@@ -1,4 +1,6 @@
 using Demo.DataAccess.Data;
+using Demo.DataAccess.Repository;
+using Demo.Service.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace MVC04
@@ -17,6 +19,9 @@ namespace MVC04
                   options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
               }
             );
+            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+
 
             var app = builder.Build();
 

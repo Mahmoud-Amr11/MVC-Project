@@ -11,14 +11,14 @@ namespace Demo.DataAccess.Repository
         public Repository(AppDbContext context)
         {
             _context = context;
-            _dbSet=_context.Set<T>();
+            _dbSet = _context.Set<T>();
         }
 
 
 
-        public async Task Add(T entity)=>await _dbSet.AddAsync(entity);
+        public async Task Add(T entity) => await _dbSet.AddAsync(entity);
 
-        public async Task<T?> GetByIdAsync(  int id,  params Expression<Func<T, object>>[] includes)
+        public async Task<T?> GetByIdAsync(int id, params Expression<Func<T, object>>[] includes)
         {
             IQueryable<T> query = _dbSet;
 
@@ -36,7 +36,7 @@ namespace Demo.DataAccess.Repository
 
         public IQueryable<T> Find(Expression<Func<T, bool>> filter)
         {
-            return  _dbSet.Where(filter);
+            return _dbSet.Where(filter);
         }
 
         public IQueryable<T> Get(Expression<Func<T, bool>> filter = null, params Expression<Func<T, object>>[] includes)
@@ -51,13 +51,13 @@ namespace Demo.DataAccess.Repository
             }
             if (filter != null)
             {
-                query= query.Where(filter);
+                query = query.Where(filter);
 
             }
             return query;
         }
 
-       
+
 
         public void Remove(T entity)
         {
@@ -66,7 +66,13 @@ namespace Demo.DataAccess.Repository
 
         public void Update(T entity)
         {
-            _dbSet.Update(entity);  
+            _dbSet.Update(entity);
+        }
+
+
+        public int SaveChanges()
+        {
+            return _context.SaveChanges();
         }
     }
 }

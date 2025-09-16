@@ -13,5 +13,7 @@ namespace Demo.DataAccess.Repository
         Task Add(T entity);
         void Update(T entity);
         void Remove(T entity);
+
+        int SaveChanges();
     }
 }

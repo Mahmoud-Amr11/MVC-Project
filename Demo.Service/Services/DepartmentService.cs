@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 public class DepartmentService : IDepartmentService
 {
-    private readonly IRepository<Department> _departmentRepository;
+    private readonly IDepartmentRepository _departmentRepository;
 
-    public DepartmentService(IRepository<Department> departmentRepository)
+    public DepartmentService(IDepartmentRepository departmentRepository)
     {
         _departmentRepository = departmentRepository;
     }
@@ -57,8 +57,8 @@ public class DepartmentService : IDepartmentService
         };
 
         await _departmentRepository.Add(department);
+        _departmentRepository.SaveChanges();
 
-        
         return department.Id;
     }
 

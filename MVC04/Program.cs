@@ -1,6 +1,6 @@
 using Demo.DataAccess.Data;
-using Demo.DataAccess.Repository;
-using Demo.Service.Services;
+using Demo.DataAccess.Repository.DepartmentsRepository;
+using Demo.Service.Services.DepartmentsService;
 using Microsoft.EntityFrameworkCore;
 
 namespace MVC04

@@ -1,11 +1,11 @@
-﻿using Demo.Service.Dtos;
+﻿using Demo.Service.Dtos.DepartmentsDTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Demo.Service.Services
+namespace Demo.Service.Services.DepartmentsService
 {
     public interface IDepartmentService
     {

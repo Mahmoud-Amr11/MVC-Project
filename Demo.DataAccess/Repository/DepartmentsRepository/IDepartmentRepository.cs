@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Demo.DataAccess.Repository
+namespace Demo.DataAccess.Repository.DepartmentsRepository
 {
     public interface IDepartmentRepository :IRepository<Department>
     {

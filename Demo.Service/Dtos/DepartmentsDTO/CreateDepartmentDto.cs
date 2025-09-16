@@ -1,4 +1,4 @@
-﻿namespace Demo.Service.Dtos
+﻿namespace Demo.Service.Dtos.DepartmentsDTO
 {
     public class CreateDepartmentDto
     {

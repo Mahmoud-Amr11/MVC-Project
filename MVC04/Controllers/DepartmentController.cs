@@ -1,5 +1,5 @@
-﻿using Demo.Service.Dtos;
-using Demo.Service.Services;
+﻿using Demo.Service.Dtos.DepartmentsDTO;
+using Demo.Service.Services.DepartmentsService;
 using Humanizer;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;

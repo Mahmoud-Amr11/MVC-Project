@@ -84,5 +84,13 @@ public class DepartmentService : IDepartmentService
         
     }
 
-   
+    public async Task<bool> DeleteDepartment(int id)
+    {
+        var department = await _departmentRepository.GetByIdAsync(id);
+        if (department == null)
+            return false;
+         _departmentRepository.Remove(department);
+
+        return _departmentRepository.SaveChanges() > 0 ? true : false;
+    }
 }

@@ -13,6 +13,7 @@ namespace Demo.Service.Services
         Task<DepartmentDetailsDto?> GetDepartmentById(int id);
         Task<int> AddDepartment(CreateDepartmentDto dto);
         Task<bool> UpdateDepartment( UpdateDepartmentDto dto);
+        Task<bool> DeleteDepartment(int id);
 
     }
 }

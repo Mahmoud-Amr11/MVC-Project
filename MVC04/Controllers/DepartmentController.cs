@@ -99,5 +99,33 @@ namespace MVC04.Controllers
             }
 
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var model = await _DepartmentService.GetDepartmentById(id);
+            if (model == null)
+            {
+                return NotFound();
+            }
+            return View(model);
+        }
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            try
+            {
+                if(! await _DepartmentService.DeleteDepartment(id))
+                    return BadRequest();
+                return RedirectToAction("Index");
+            }
+            catch(Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, "An error occurred while deleting the department. Please try again.");
+                return RedirectToAction(nameof(Index));
+            }
+          
+        }
     }
 }

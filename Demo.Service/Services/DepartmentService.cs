@@ -40,7 +40,11 @@ public class DepartmentService : IDepartmentService
             Name = d.Name,
             Code = d.Code,
             Description = d.Description,
-            DateOfCreation = d.CreatedOn
+            DateOfCreation = d.CreatedOn,
+            LastModifiedBy = d.LastModifiedBy,
+            LastModifiedOn = d.LastModifiedOn,
+            IsDeleted = d.IsDeleted,
+
 
         };
     }
@@ -75,8 +79,9 @@ public class DepartmentService : IDepartmentService
         department.CreatedOn = dto.DateOfCreation;
 
         _departmentRepository.Update(department);
+        return _departmentRepository.SaveChanges() >0 ? true : false;
 
-        return true;
+        
     }
 
    

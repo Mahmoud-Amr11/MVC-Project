@@ -1,5 +1,6 @@
 ﻿using Demo.Service.Dtos;
 using Demo.Service.Services;
+using Humanizer;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -19,6 +20,22 @@ namespace MVC04.Controllers
             return View(model);
         }
 
+
+        public async Task<IActionResult> Details(int id)
+        {
+            var model = await _DepartmentService.GetDepartmentById(id);
+            if (model == null)
+            {
+                return NotFound();
+            }
+            return View(model);
+        }
+
+
+
+
+
+
         [HttpGet]
         public IActionResult Create()
         {
@@ -37,9 +54,46 @@ namespace MVC04.Controllers
                 }
                 return View(dto);
             }
+            catch (Exception ex)
+            {
+
+                ModelState.AddModelError(string.Empty, "An error occurred while creating the department. Please try again.");
+                return View(dto);
+            }
+
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var d = await _DepartmentService.GetDepartmentById(id);
+
+            if (d == null)
+            {
+                return NotFound();
+            }
+
+            var dept = new UpdateDepartmentDto
+            {
+                Id = d.Id,
+                Name = d.Name,
+                Code = d.Code,
+                Description = d.Description,
+                DateOfCreation = d.DateOfCreation
+            };
+
+            return View(dept);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(UpdateDepartmentDto dto)
+        {
+            try
+            {
+               await _DepartmentService.UpdateDepartment(dto);
+                return RedirectToAction("Index");
+            }
             catch(Exception ex)
             {
-             
                 ModelState.AddModelError(string.Empty, "An error occurred while creating the department. Please try again.");
                 return View(dto);
             }

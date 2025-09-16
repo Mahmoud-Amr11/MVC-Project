@@ -1,4 +1,4 @@
-﻿using Demo.DataAccess.Models;
+﻿using Demo.DataAccess.Models.Departments;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;

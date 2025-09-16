@@ -1,4 +1,5 @@
 ﻿using Demo.DataAccess.Models;
+using Demo.DataAccess.Models.Departments;
 using Demo.DataAccess.Repository;
 using Demo.Service.Dtos;
 using Demo.Service.Services;

@@ -1,4 +1,4 @@
-﻿namespace Demo.DataAccess.Models
+﻿namespace Demo.DataAccess.Models.Departments
 {
     public class Department:BaseEntity
     {

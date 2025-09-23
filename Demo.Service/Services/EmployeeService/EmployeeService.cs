@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Demo.DataAccess.Models.Employees;
 using Demo.DataAccess.Repository;
+using Demo.DataAccess.Repository.EmployeesRepository;
 using Demo.Service.Dtos.EmployeesDTO;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,10 +9,10 @@ namespace Demo.Service.Services.EmployeeService
 {
     public class EmployeeService : IEmployeeService
     {
-        private readonly IRepository<Employee> _employeeRepository;
+        private readonly IEmployeeRepository _employeeRepository;
         private readonly IMapper _mapper;
 
-        public EmployeeService(IRepository<Employee> employeeRepository, IMapper mapper)
+        public EmployeeService(IEmployeeRepository employeeRepository, IMapper mapper)
         {
             _employeeRepository = employeeRepository;
             _mapper = mapper;

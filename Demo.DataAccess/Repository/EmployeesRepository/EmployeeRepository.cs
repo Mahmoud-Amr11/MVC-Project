@@ -1,5 +1,7 @@
-﻿using Demo.DataAccess.Data;
-using Demo.DataAccess.Migrations;
+﻿
+
+using Demo.DataAccess.Data;
+using Demo.DataAccess.Models.Employees;
 
 namespace Demo.DataAccess.Repository.EmployeesRepository
 {

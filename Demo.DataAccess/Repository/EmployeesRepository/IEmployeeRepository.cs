@@ -1,4 +1,5 @@
 ﻿using Demo.DataAccess.Migrations;
+using Demo.DataAccess.Models.Employees;
 using System;
 using System.Collections.Generic;
 using System.Linq;

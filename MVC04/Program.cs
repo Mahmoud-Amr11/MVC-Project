@@ -1,5 +1,6 @@
 using Demo.DataAccess.Data;
 using Demo.DataAccess.Repository.DepartmentsRepository;
+using Demo.Service.Profiles;
 using Demo.Service.Services.DepartmentsService;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,7 +22,7 @@ namespace MVC04
             );
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();
-
+            builder.Services.AddAutoMapper(m=>m.AddProfile(new MappingProfile()));
 
             var app = builder.Build();
 

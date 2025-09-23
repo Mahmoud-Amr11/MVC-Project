@@ -13,7 +13,7 @@ namespace Demo.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     [Migration("20250916101156_Employee")]
-    partial class Employee
+    partial class Employees
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

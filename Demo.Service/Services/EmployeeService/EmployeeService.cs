@@ -21,7 +21,7 @@ namespace Demo.Service.Services.EmployeeService
         public async Task<IEnumerable<EmployeeDto>> GetAllEmployeesAsync()
         {
 
-           var employees =  _employeeRepository.Get();
+           var employees =  _employeeRepository.Get().Where(e=>e.IsDeleted ==false);
           return _mapper.Map<IEnumerable<EmployeeDto>>(employees);
             ///return await _employeeRepository.Get()
             ///    .Select(e => new EmployeeDto
@@ -62,20 +62,20 @@ namespace Demo.Service.Services.EmployeeService
 
         public async Task<int> AddEmployeeAsync(CreateEmployeeDto dto)
         {
-            //var employee = new Employee
-            //{
-            //    Name = dto.Name,
-            //    Age = dto.Age,
-            //    Address = dto.Address,
-            //    IsActive = dto.IsActive,
-            //    Salary = dto.Salary,
-            //    Email = dto.Email,
-            //    PhoneNumber = dto.PhoneNumber,
-            //    HiringDate = dto.HiringDate,
-            //    Gender = Enum.Parse<Gender>(dto.Gender),
-            //    EmployeeType = Enum.Parse<EmployeeType>(dto.EmployeeType),
-                
-            //};
+            ///var employee = new Employee
+            ///{
+            ///    Name = dto.Name,
+            ///    Age = dto.Age,
+            ///    Address = dto.Address,
+            ///    IsActive = dto.IsActive,
+            ///    Salary = dto.Salary,
+            ///    Email = dto.Email,
+            ///    PhoneNumber = dto.PhoneNumber,
+            ///    HiringDate = dto.HiringDate,
+            ///    Gender = Enum.Parse<Gender>(dto.Gender),
+            ///    EmployeeType = Enum.Parse<EmployeeType>(dto.EmployeeType),
+            ///};
+           
             var employee = _mapper.Map<Employee>(dto);
 
             await _employeeRepository.Add(employee);

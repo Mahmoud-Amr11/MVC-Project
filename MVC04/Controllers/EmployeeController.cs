@@ -99,5 +99,29 @@ namespace MVC04.Controllers
             }
             return View(employee);
         }
+
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                var result = await _employeeService.DeleteEmployeeAsync(id);
+                if (result)
+                    return RedirectToAction(nameof(Index));
+                ModelState.AddModelError("", "Failed to delete employee");
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return RedirectToAction(nameof(Index));
+            }
+        }
     }
+
+
+   
 }

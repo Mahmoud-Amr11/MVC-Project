@@ -13,6 +13,6 @@
         public DateTime HiringDate { get; set; }
         public string Gender { get; set; }
         public string EmployeeType { get; set; }
-        public string LastModifiedBy { get; set; }
+       
     }
 }

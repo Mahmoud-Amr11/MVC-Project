@@ -24,6 +24,7 @@ namespace Demo.Service.Profiles
              .ForMember(dist => dist.EmployeeType, opt => opt.MapFrom(src => src.EmployeeType))
              .ReverseMap(); ;
             CreateMap<CreateEmployeeDto, Employee>().ReverseMap();
+            CreateMap<UpdateEmployeeDto, Employee>().ReverseMap();
         }
     }
 }

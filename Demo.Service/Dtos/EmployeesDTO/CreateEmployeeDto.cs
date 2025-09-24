@@ -10,8 +10,8 @@
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public DateTime HiringDate { get; set; }
-        public string Gender { get; set; }
-        public string EmployeeType { get; set; }
-        public string CreatedBy { get; set; }
+        public string? Gender { get; set; }
+        public string? EmployeeType { get; set; }
+        public string? CreatedBy { get; set; }
     }
 }

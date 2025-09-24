@@ -79,8 +79,8 @@ namespace Demo.Service.Services.EmployeeService
             var employee = _mapper.Map<Employee>(dto);
 
             await _employeeRepository.Add(employee);
-            _employeeRepository.SaveChanges();
-            return employee.Id;
+            
+            return _employeeRepository.SaveChanges(); 
         }
 
         public async Task<bool> UpdateEmployeeAsync(UpdateEmployeeDto dto)

@@ -1,5 +1,7 @@
-﻿using Demo.DataAccess.Models.Employees;
+﻿using AutoMapper;
+using Demo.DataAccess.Models.Employees;
 using Demo.DataAccess.Repository;
+using Demo.DataAccess.Repository.EmployeesRepository;
 using Demo.Service.Dtos.EmployeesDTO;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,27 +9,32 @@ namespace Demo.Service.Services.EmployeeService
 {
     public class EmployeeService : IEmployeeService
     {
-        private readonly IRepository<Employee> _employeeRepository;
+        private readonly IEmployeeRepository _employeeRepository;
+        private readonly IMapper _mapper;
 
-        public EmployeeService(IRepository<Employee> employeeRepository)
+        public EmployeeService(IEmployeeRepository employeeRepository, IMapper mapper)
         {
             _employeeRepository = employeeRepository;
+            _mapper = mapper;
         }
 
         public async Task<IEnumerable<EmployeeDto>> GetAllEmployeesAsync()
         {
-            return await _employeeRepository.Get()
-                .Select(e => new EmployeeDto
-                {
-                    Id = e.Id,
-                    Name = e.Name,
-                    Age = e.Age,
-                    IsActive = e.IsActive,
-                    Salary = e.Salary,
-                    Email = e.Email,
-                    Gender = e.Gender.ToString(),
-                    EmployeeType = e.EmployeeType.ToString()
-                }).ToListAsync();
+
+           var employees =  _employeeRepository.Get().Where(e=>e.IsDeleted ==false);
+          return _mapper.Map<IEnumerable<EmployeeDto>>(employees);
+            ///return await _employeeRepository.Get()
+            ///    .Select(e => new EmployeeDto
+            ///    {
+            ///        Id = e.Id,
+            ///        Name = e.Name,
+            ///        Age = e.Age,
+            ///        IsActive = e.IsActive,
+            ///        Salary = e.Salary,
+            ///        Email = e.Email,
+            ///        Gender = e.Gender.ToString(),
+            ///        EmployeeType = e.EmployeeType.ToString()
+            ///    }).ToListAsync();
         }
 
         public async Task<EmployeeDetailsDto?> GetEmployeeByIdAsync(int id)
@@ -35,42 +42,45 @@ namespace Demo.Service.Services.EmployeeService
             var e = await _employeeRepository.GetByIdAsync(id);
             if (e == null) return null;
 
-            return new EmployeeDetailsDto
-            {
-                Id = e.Id,
-                Name = e.Name,
-                Age = e.Age,
-                Address = e.Address,
-                IsActive = e.IsActive,
-                Salary = e.Salary,
-                Email = e.Email,
-                PhoneNumber = e.PhoneNumber,
-                HiringDate = e.HiringDate,
-                Gender = e.Gender.ToString(),
-                EmployeeType = e.EmployeeType.ToString()
-            };
+            return _mapper.Map<EmployeeDetailsDto>(e);
+
+            //return new EmployeeDetailsDto
+            //{
+            //    Id = e.Id,
+            //    Name = e.Name,
+            //    Age = e.Age,
+            //    Address = e.Address,
+            //    IsActive = e.IsActive,
+            //    Salary = e.Salary,
+            //    Email = e.Email,
+            //    PhoneNumber = e.PhoneNumber,
+            //    HiringDate = e.HiringDate,
+            //    Gender = e.Gender.ToString(),
+            //    EmployeeType = e.EmployeeType.ToString()
+            //};
         }
 
         public async Task<int> AddEmployeeAsync(CreateEmployeeDto dto)
         {
-            var employee = new Employee
-            {
-                Name = dto.Name,
-                Age = dto.Age,
-                Address = dto.Address,
-                IsActive = dto.IsActive,
-                Salary = dto.Salary,
-                Email = dto.Email,
-                PhoneNumber = dto.PhoneNumber,
-                HiringDate = dto.HiringDate,
-                Gender = Enum.Parse<Gender>(dto.Gender),
-                EmployeeType = Enum.Parse<EmployeeType>(dto.EmployeeType),
-                
-            };
+            ///var employee = new Employee
+            ///{
+            ///    Name = dto.Name,
+            ///    Age = dto.Age,
+            ///    Address = dto.Address,
+            ///    IsActive = dto.IsActive,
+            ///    Salary = dto.Salary,
+            ///    Email = dto.Email,
+            ///    PhoneNumber = dto.PhoneNumber,
+            ///    HiringDate = dto.HiringDate,
+            ///    Gender = Enum.Parse<Gender>(dto.Gender),
+            ///    EmployeeType = Enum.Parse<EmployeeType>(dto.EmployeeType),
+            ///};
+           
+            var employee = _mapper.Map<Employee>(dto);
 
             await _employeeRepository.Add(employee);
-            _employeeRepository.SaveChanges();
-            return employee.Id;
+            
+            return _employeeRepository.SaveChanges(); 
         }
 
         public async Task<bool> UpdateEmployeeAsync(UpdateEmployeeDto dto)
@@ -78,19 +88,10 @@ namespace Demo.Service.Services.EmployeeService
             var employee = await _employeeRepository.GetByIdAsync(dto.Id);
             if (employee == null) return false;
 
-            employee.Name = dto.Name;
-            employee.Age = dto.Age;
-            employee.Address = dto.Address;
-            employee.IsActive = dto.IsActive;
-            employee.Salary = dto.Salary;
-            employee.Email = dto.Email;
-            employee.PhoneNumber = dto.PhoneNumber;
-            employee.HiringDate = dto.HiringDate;
-            employee.Gender = Enum.Parse<Gender>(dto.Gender);
-            employee.EmployeeType = Enum.Parse<EmployeeType>(dto.EmployeeType);
-            
+           var updatedEmployee = _mapper.Map(dto, employee);
 
-            _employeeRepository.Update(employee);
+
+            _employeeRepository.Update(updatedEmployee);
             _employeeRepository.SaveChanges();
             return true;
         }
@@ -100,9 +101,12 @@ namespace Demo.Service.Services.EmployeeService
             var employee = await _employeeRepository.GetByIdAsync(id);
             if (employee == null) return false;
 
-            _employeeRepository.Remove(employee);
-            _employeeRepository.SaveChanges();
-            return true;
+             employee.IsDeleted = true;
+            _employeeRepository.Update(employee);
+
+            return _employeeRepository.SaveChanges() > 0;
+
+
         }
     }
 }

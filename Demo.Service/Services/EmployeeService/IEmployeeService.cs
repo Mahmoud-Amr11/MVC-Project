@@ -9,7 +9,7 @@ namespace Demo.Service.Services.EmployeeService
 {
     public interface IEmployeeService
     {
-        Task<IEnumerable<EmployeeDto>> GetAllEmployeesAsync();
+        Task<IEnumerable<EmployeeDto>> GetAllEmployeesAsync(string? value);
         Task<EmployeeDetailsDto?> GetEmployeeByIdAsync(int id);
         Task<int> AddEmployeeAsync(CreateEmployeeDto dto);
         Task<bool> UpdateEmployeeAsync(UpdateEmployeeDto dto);

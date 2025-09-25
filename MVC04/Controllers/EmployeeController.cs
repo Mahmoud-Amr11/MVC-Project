@@ -13,9 +13,10 @@ namespace MVC04.Controllers
         {
             _employeeService = employeeService;
         }
-        public async Task<IActionResult> Index(int? id)
+        [HttpGet]
+        public async Task<IActionResult> Index(string? EmployeeSearchName)
         {
-            var employees = await _employeeService.GetAllEmployeesAsync();
+             var employees = await _employeeService.GetAllEmployeesAsync(EmployeeSearchName);
 
             return View(employees);
         }

@@ -15,7 +15,7 @@ public class DepartmentService : IDepartmentService
         _departmentRepository = departmentRepository;
     }
 
-    public async Task<IEnumerable<DepartmentDto>> GetAllDepartments()
+    public async Task<IEnumerable<DepartmentDto>> GetAllDepartments( )
     {
         return await _departmentRepository
             .Get()

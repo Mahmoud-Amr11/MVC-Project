@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Demo.DataAccess.Models.Departments;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -38,5 +39,10 @@ namespace Demo.DataAccess.Models.Employees
 
   
         public EmployeeType EmployeeType { get; set; }
+
+
+
+        public int? DepartmentId { get; set; }
+        public Department? Department { get; set; }
     }
 }

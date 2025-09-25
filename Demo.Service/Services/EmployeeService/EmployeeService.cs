@@ -18,11 +18,17 @@ namespace Demo.Service.Services.EmployeeService
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<EmployeeDto>> GetAllEmployeesAsync()
+        public async Task<IEnumerable<EmployeeDto>> GetAllEmployeesAsync(string? value )
         {
+            var Employees = _employeeRepository.Get(e => e.IsDeleted == false);
+            if (!string.IsNullOrEmpty(value))
+            {
+               Employees = Employees.Where(e => e.Name.ToLower().Contains(value) );
 
-           var employees =  _employeeRepository.Get().Where(e=>e.IsDeleted ==false);
-          return _mapper.Map<IEnumerable<EmployeeDto>>(employees);
+            }
+
+           
+          return _mapper.Map<IEnumerable<EmployeeDto>>(Employees);
             ///return await _employeeRepository.Get()
             ///    .Select(e => new EmployeeDto
             ///    {

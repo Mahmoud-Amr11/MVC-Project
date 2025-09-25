@@ -39,7 +39,7 @@ namespace Demo.DataAccess.Repository
             return _dbSet.Where(filter);
         }
 
-        public IQueryable<T> Get(Expression<Func<T, bool>> filter = null, params Expression<Func<T, object>>[] includes)
+        public IQueryable<T> Get(Expression<Func<T, bool>> filter = null, params Expression<Func<T, object>>[] includes )
         {
             IQueryable<T> query = _dbSet;
             if (includes != null)

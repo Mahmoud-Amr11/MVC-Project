@@ -20,6 +20,11 @@ namespace Demo.DataAccess.Configuration
             builder.Property(D => D.LastModifiedOn).HasComputedColumnSql("GetDate()");
 
 
+            builder.HasOne(e=>e.Department)
+                .WithMany(d=>d.Employees)
+                .HasForeignKey(e=>e.DepartmentId)
+                .OnDelete(DeleteBehavior.SetNull);
+
         }
     }
 }

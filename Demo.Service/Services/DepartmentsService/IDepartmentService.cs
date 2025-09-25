@@ -12,7 +12,7 @@ namespace Demo.Service.Services.DepartmentsService
         Task<IEnumerable<DepartmentDto>> GetAllDepartments();
         Task<DepartmentDetailsDto?> GetDepartmentById(int id);
         Task<int> AddDepartment(CreateDepartmentDto dto);
-        Task<bool> UpdateDepartment( UpdateDepartmentDto dto);
+        Task<bool> UpdateDepartment(int id, UpdateDepartmentDto dto);
         Task<bool> DeleteDepartment(int id);
 
     }

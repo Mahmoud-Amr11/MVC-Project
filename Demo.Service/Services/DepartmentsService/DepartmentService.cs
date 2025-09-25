@@ -4,6 +4,7 @@ using Demo.DataAccess.Repository.DepartmentsRepository;
 using Demo.Service.Dtos.DepartmentsDTO;
 using Demo.Service.Services.DepartmentsService;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 public class DepartmentService : IDepartmentService
 {
@@ -14,7 +15,7 @@ public class DepartmentService : IDepartmentService
         _departmentRepository = departmentRepository;
     }
 
-    public async Task<IEnumerable<DepartmentDto>> GetAllDepartments()
+    public async Task<IEnumerable<DepartmentDto>> GetAllDepartments( )
     {
         return await _departmentRepository
             .Get()
@@ -67,9 +68,9 @@ public class DepartmentService : IDepartmentService
         return department.Id;
     }
 
-    public async Task<bool> UpdateDepartment(UpdateDepartmentDto dto)
+    public async Task<bool> UpdateDepartment(int id,UpdateDepartmentDto dto)
     {
-        var department = await _departmentRepository.GetByIdAsync(dto.Id);
+        var department = await _departmentRepository.GetByIdAsync(id);
 
         if (department == null)
             return false;
@@ -77,7 +78,7 @@ public class DepartmentService : IDepartmentService
         department.Name = dto.Name;
         department.Code = dto.Code;
         department.Description = dto.Description;
-        department.CreatedOn = dto.DateOfCreation;
+        department.CreatedOn = dto.DateOfCreation.ToDateTime(new TimeOnly());
 
         _departmentRepository.Update(department);
         return _departmentRepository.SaveChanges() >0 ? true : false;

@@ -1,6 +1,7 @@
 ﻿using Demo.Service.Dtos.EmployeesDTO;
 using Demo.Service.Services.EmployeeService;
 using Microsoft.AspNetCore.Mvc;
+using MVC04.ViewModels.EmployeeViewModels;
 
 
 namespace MVC04.Controllers
@@ -62,9 +63,9 @@ namespace MVC04.Controllers
             var employee = await _employeeService.GetEmployeeByIdAsync(id);
             if (employee == null)
                 return NotFound();
-            var updateEmployeeDto = new UpdateEmployeeDto
+            var updateEmployeeDto = new EmployeeViewModel
             {
-                Id = employee.Id,
+               
                 Name = employee.Name,
                 Age = employee.Age,
                 Address = employee.Address,
@@ -80,13 +81,27 @@ namespace MVC04.Controllers
             return View(updateEmployeeDto);
         }
         [HttpPost]
-        public async Task<IActionResult> Edit(UpdateEmployeeDto employee)
+        public async Task<IActionResult> Edit([FromRoute]int id,EmployeeViewModel employee)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var result = await _employeeService.UpdateEmployeeAsync(employee);
+                    var emp = new UpdateEmployeeDto
+                    {
+                        Id = id,
+                        Name = employee.Name,
+                        Age = employee.Age,
+                        Address = employee.Address,
+                        IsActive = employee.IsActive,
+                        Salary = employee.Salary,
+                        Email = employee.Email,
+                        PhoneNumber = employee.PhoneNumber,
+                        HiringDate = employee.HiringDate,
+                        Gender = employee.Gender,
+                        EmployeeType = employee.EmployeeType,
+                        };
+                    var result = await _employeeService.UpdateEmployeeAsync(emp);
                     if (result)
                         return RedirectToAction(nameof(Index));
                     ModelState.AddModelError("", "Failed to update employee");

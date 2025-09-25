@@ -9,5 +9,5 @@
 
 //Service Life Time
 //Singleton : Created once and shared throughout the application's lifetime.
-//Scoped : Created once per client request (connection).
+//Scoped    : Created once per client request (connection).
 //Transient : Created each time they are requested.

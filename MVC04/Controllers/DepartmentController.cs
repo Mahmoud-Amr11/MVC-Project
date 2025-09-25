@@ -2,6 +2,7 @@
 using Demo.Service.Services.DepartmentsService;
 using Humanizer;
 using Microsoft.AspNetCore.Mvc;
+using MVC04.ViewModels.DepartmentViewModels;
 using System.Threading.Tasks;
 
 namespace MVC04.Controllers
@@ -73,29 +74,29 @@ namespace MVC04.Controllers
                 return NotFound();
             }
 
-            var dept = new UpdateDepartmentDto
+            var dept = new DepartmentViewModel
             {
-                Id = d.Id,
+               
                 Name = d.Name,
                 Code = d.Code,
                 Description = d.Description,
-                DateOfCreation = d.DateOfCreation
+                DateOfCreation =DateOnly.FromDateTime (d.DateOfCreation)
             };
 
             return View(dept);
         }
         [HttpPost]
-        public async Task<IActionResult> Edit(UpdateDepartmentDto dto)
+        public async Task<IActionResult> Edit([FromRoute]int id,UpdateDepartmentDto Dept)
         {
             try
             {
-               await _DepartmentService.UpdateDepartment(dto);
+                await _DepartmentService.UpdateDepartment(id, Dept);
                 return RedirectToAction("Index");
             }
             catch(Exception ex)
             {
                 ModelState.AddModelError(string.Empty, "An error occurred while creating the department. Please try again.");
-                return View(dto);
+                return View(Dept);
             }
 
         }

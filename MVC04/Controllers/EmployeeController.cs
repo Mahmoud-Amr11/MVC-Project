@@ -1,7 +1,7 @@
 ﻿using Demo.Service.Dtos.EmployeesDTO;
 using Demo.Service.Services.EmployeeService;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+
 
 namespace MVC04.Controllers
 {
@@ -13,7 +13,7 @@ namespace MVC04.Controllers
         {
             _employeeService = employeeService;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
             var employees = await _employeeService.GetAllEmployeesAsync();
 

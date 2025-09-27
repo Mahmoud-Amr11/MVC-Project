@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 
 namespace Demo.Service.Dtos.EmployeesDTO
 {
@@ -36,13 +37,15 @@ namespace Demo.Service.Dtos.EmployeesDTO
         [Display(Name = "Hiring Date")]
         public DateTime HiringDate { get; set; }
 
-        [Required(ErrorMessage = "Gender is required")]
+        
         public string? Gender { get; set; }
 
-        [Required(ErrorMessage = "Employee Type is required")]
+        
         public string? EmployeeType { get; set; }
 
         [StringLength(50, ErrorMessage = "CreatedBy cannot exceed 50 characters")]
         public string? CreatedBy { get; set; }
+         
+        public IFormFile? Image { get; set; }
     }
 }

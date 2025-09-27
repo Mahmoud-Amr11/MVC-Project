@@ -44,5 +44,8 @@ namespace MVC04.ViewModels.EmployeeViewModels
 
         [StringLength(50, ErrorMessage = "CreatedBy cannot exceed 50 characters")]
         public string? CreatedBy { get; set; }
+
+   
+        public IFormFile? Image { get; set; }
     }
 }

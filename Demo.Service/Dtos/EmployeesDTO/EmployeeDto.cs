@@ -16,5 +16,7 @@ namespace Demo.Service.Dtos.EmployeesDTO
         public string Email { get; set; }
         public string Gender { get; set; }
         public string EmployeeType { get; set; }
+
+        public string? Image { get; set; }
     }
 }

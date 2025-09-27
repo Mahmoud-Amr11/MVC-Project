@@ -41,7 +41,7 @@ namespace Demo.DataAccess.Models.Employees
         public EmployeeType EmployeeType { get; set; }
 
 
-
+        public string? Image{ get; set; }
         public int? DepartmentId { get; set; }
         public Department? Department { get; set; }
     }

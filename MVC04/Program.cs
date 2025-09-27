@@ -1,6 +1,8 @@
 using Demo.DataAccess.Data;
 using Demo.DataAccess.Repository.DepartmentsRepository;
 using Demo.DataAccess.Repository.EmployeesRepository;
+using Demo.DataAccess.UnitOfWork;
+using Demo.Service.AttachmentService;
 using Demo.Service.Profiles;
 using Demo.Service.Services.DepartmentsService;
 using Demo.Service.Services.EmployeeService;
@@ -22,11 +24,13 @@ namespace MVC04
                   options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
               }
             );
+            builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             builder.Services.AddScoped<IEmployeeService, EmployeeService>();
             builder.Services.AddAutoMapper(m=>m.AddProfile(new MappingProfile()));
+            builder.Services.AddScoped<IFileService, FileService>();
 
             var app = builder.Build();
 
@@ -39,6 +43,7 @@ namespace MVC04
             }
 
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
             app.UseRouting();
 
             app.UseAuthorization();

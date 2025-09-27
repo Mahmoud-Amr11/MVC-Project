@@ -1,6 +1,7 @@
 ﻿using Demo.DataAccess.Models;
 using Demo.DataAccess.Models.Departments;
 using Demo.DataAccess.Repository.DepartmentsRepository;
+using Demo.DataAccess.UnitOfWork;
 using Demo.Service.Dtos.DepartmentsDTO;
 using Demo.Service.Services.DepartmentsService;
 using Microsoft.EntityFrameworkCore;
@@ -8,16 +9,16 @@ using System;
 
 public class DepartmentService : IDepartmentService
 {
-    private readonly IDepartmentRepository _departmentRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public DepartmentService(IDepartmentRepository departmentRepository)
+    public DepartmentService(IUnitOfWork unitOfWork)
     {
-        _departmentRepository = departmentRepository;
+       _unitOfWork = unitOfWork;
     }
 
     public async Task<IEnumerable<DepartmentDto>> GetAllDepartments( )
     {
-        return await _departmentRepository
+        return await _unitOfWork.DepartmentRepository
             .Get()
             .Select(d => new DepartmentDto
             {
@@ -32,7 +33,7 @@ public class DepartmentService : IDepartmentService
 
     public async Task<DepartmentDetailsDto?> GetDepartmentById(int id)
     {
-        var d = await _departmentRepository.GetByIdAsync(id);
+        var d = await _unitOfWork.DepartmentRepository.GetByIdAsync(id);
 
         if (d == null) return null;
 
@@ -62,15 +63,15 @@ public class DepartmentService : IDepartmentService
             IsDeleted = false
         };
 
-        await _departmentRepository.Add(department);
-        _departmentRepository.SaveChanges();
+        await _unitOfWork.DepartmentRepository.Add(department);
+        _unitOfWork.DepartmentRepository.SaveChanges();
 
         return department.Id;
     }
 
     public async Task<bool> UpdateDepartment(int id,UpdateDepartmentDto dto)
     {
-        var department = await _departmentRepository.GetByIdAsync(id);
+        var department = await _unitOfWork.DepartmentRepository.GetByIdAsync(id);
 
         if (department == null)
             return false;
@@ -80,19 +81,19 @@ public class DepartmentService : IDepartmentService
         department.Description = dto.Description;
         department.CreatedOn = dto.DateOfCreation.ToDateTime(new TimeOnly());
 
-        _departmentRepository.Update(department);
-        return _departmentRepository.SaveChanges() >0 ? true : false;
+        _unitOfWork.DepartmentRepository.Update(department);
+        return _unitOfWork.DepartmentRepository.SaveChanges() >0 ? true : false;
 
         
     }
 
     public async Task<bool> DeleteDepartment(int id)
     {
-        var department = await _departmentRepository.GetByIdAsync(id);
+        var department = await _unitOfWork.DepartmentRepository.GetByIdAsync(id);
         if (department == null)
             return false;
-         _departmentRepository.Remove(department);
+         _unitOfWork.DepartmentRepository.Remove(department);
 
-        return _departmentRepository.SaveChanges() > 0 ? true : false;
+        return _unitOfWork.DepartmentRepository.SaveChanges() > 0 ? true : false;
     }
 }

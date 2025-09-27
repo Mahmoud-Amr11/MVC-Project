@@ -76,7 +76,8 @@ namespace MVC04.Controllers
                 HiringDate = employee.HiringDate,
                 Gender = employee.Gender,
                 EmployeeType = employee.EmployeeType,
-               
+              //  Image= employee.Image
+
             };
             return View(updateEmployeeDto);
         }

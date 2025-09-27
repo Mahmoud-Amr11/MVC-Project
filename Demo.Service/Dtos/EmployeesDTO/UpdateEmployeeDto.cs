@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 
 namespace Demo.Service.Dtos.EmployeesDTO
 {
@@ -42,7 +43,8 @@ namespace Demo.Service.Dtos.EmployeesDTO
 
         [Required(ErrorMessage = "Employee Type is required")]
         public string? EmployeeType { get; set; }
+        public IFormFile Image { get; set; }
 
-       
+
     }
 }

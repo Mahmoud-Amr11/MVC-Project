@@ -1,11 +1,8 @@
 ﻿using AutoMapper;
 using Demo.DataAccess.Models.Employees;
-using Demo.DataAccess.Repository;
-using Demo.DataAccess.Repository.EmployeesRepository;
 using Demo.DataAccess.UnitOfWork;
 using Demo.Service.AttachmentService;
 using Demo.Service.Dtos.EmployeesDTO;
-using Microsoft.EntityFrameworkCore;
 
 namespace Demo.Service.Services.EmployeeService
 {

@@ -1,4 +1,5 @@
 using Demo.DataAccess.Data;
+using Demo.DataAccess.Models.Identity_Model;
 using Demo.DataAccess.Repository.DepartmentsRepository;
 using Demo.DataAccess.Repository.EmployeesRepository;
 using Demo.DataAccess.UnitOfWork;
@@ -6,6 +7,7 @@ using Demo.Service.AttachmentService;
 using Demo.Service.Profiles;
 using Demo.Service.Services.DepartmentsService;
 using Demo.Service.Services.EmployeeService;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace MVC04
@@ -24,6 +26,16 @@ namespace MVC04
                   options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
               }
             );
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
+                options.Password.RequiredLength = 6;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireDigit = false;
+                options.User.RequireUniqueEmail = true;
+            }).AddEntityFrameworkStores<AppDbContext>()
+            .AddDefaultTokenProviders();
             builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();

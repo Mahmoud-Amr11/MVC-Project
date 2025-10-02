@@ -1,10 +1,10 @@
 ﻿using Demo.DataAccess.Models.Identity_Model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using MVC04.Helpers;
 using MVC04.ViewModels.Account;
-using System.Security.Cryptography.Pkcs;
-using System.Threading.Tasks;
 
+using Email = MVC04.Helpers.Email;
 namespace MVC04.Controllers
 {
     public class AccountController : Controller
@@ -116,6 +116,76 @@ namespace MVC04.Controllers
         {
             await _SignInManager.SignOutAsync();
             return RedirectToAction("LogIn", "Account");
+        }
+
+
+
+        public IActionResult ForgetPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ForgetPassword(ForgetPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _UserManager.FindByEmailAsync(model.Email);
+                if (user is not null)
+                {
+                    var token = await _UserManager.GeneratePasswordResetTokenAsync(user);
+                    var resetPasswordUrl = Url.Action("ResetPassword", "Account", new { userId = user.Email, token }, Request.Scheme);
+                    var email = new Email()
+                    {
+                        To = model.Email,
+                        Subject = "Reset Password",
+                        Body = "reset link"
+                    };
+                    EmailSettings.SendEmail(email);
+                    return RedirectToAction("CheckYourInbox", "Account");
+
+                }
+            }
+            ModelState.AddModelError(string.Empty, "Invalid Email");
+            return View(model);
+        }
+
+        public IActionResult CheckYourInbox()
+        {
+            return View();
+        }
+
+        public IActionResult ResetPassword(string email, string token)
+        {
+            TempData["Email"] = email;
+            TempData["token"] = token;
+
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _UserManager.FindByEmailAsync(ViewBag.Email);
+                if (user is not null)
+                {
+                    var result = await _UserManager.ResetPasswordAsync(user, ViewBag.token, model.Password);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("LogIn", "Account");
+                    }
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid Request");
+                }
+            }
+            return View(model);
         }
     }
 }

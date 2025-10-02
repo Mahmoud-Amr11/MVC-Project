@@ -1,0 +1,40 @@
+﻿
+@model IEnumerable<RoleViewModel>
+
+@{
+    ViewData["Title"] = "All Roles";
+}
+
+<h1>All Roles</h1>
+<a asp-action="Create" class="btn btn-success my-3">Add New Role</a>
+
+<form asp-action="Index" method="get" class="my-3">
+    <div class="input-group">
+        <input type="text" name="searchValue" class="form-control" placeholder="Role's Name" />
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>RoleName</th>
+            <th>Details</th>
+            <th>Update</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var role in Model)
+        {
+            <tr>
+                <td>@role.Id</td>
+                <td>@role.RoleName</td>
+                <td><a asp-action="Details" asp-route-id="@role.Id" class="btn btn-sm btn-info">Details</a></td>
+                <td><a asp-action="Edit" asp-route-id="@role.Id" class="btn btn-sm btn-warning">Update</a></td>
+                <td><a asp-action="Delete" asp-route-id="@role.Id" class="btn btn-sm btn-danger">Delete</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
